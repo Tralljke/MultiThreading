@@ -13,7 +13,8 @@ public class Main {
     public static void main(String[] args) {
         final BlockingQueue<String> queue = new ArrayBlockingQueue<>(32);
 
-        for (int i = 0; i < 7; i++) {
+
+        for (int i = 0; i < 2; i++) {
             final int threadNumber = i;
             new Thread(new Runnable() {
                 @Override
@@ -21,6 +22,7 @@ public class Main {
                     int counter = 0;
                     while (true) {
                         try {
+                            Thread.sleep(1000);
                             queue.put("elem-" + threadNumber + "/" + ++counter);
                             System.out.println(Thread.currentThread().getName() + " put: " + counter);
                         } catch (InterruptedException ignore) { }
@@ -34,15 +36,24 @@ public class Main {
                 public void run() {
                     while (true) {
                         try {
-                            Thread.sleep(300);
+                            Thread.sleep(500);
                             String data = queue.take();
                             System.out.println(Thread.currentThread().getName() + " take: " + data);
-                            System.out.println("Элементов в очереди " + queue.size());
                         } catch (InterruptedException ignore) {
                         }
                     }
                 }
             }).start();
+        while (true) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(queue.size());
         }
+        }
+
+
 
 }
