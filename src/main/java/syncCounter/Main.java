@@ -1,5 +1,7 @@
 package syncCounter;
-
+/**
+ Метод main, где можно посмотреть, как работает синхронизация по методу add.
+ **/
 public class Main {
     static int counter = 0;
     static volatile boolean finish = false;

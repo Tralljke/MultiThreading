@@ -1,5 +1,9 @@
 package syncWaitNotify;
 
+/**
+ Метод main, где можно посмотреть, как работает notify и wait.
+ **/
+
 public class Main {
     public static void main(String[] args) {
         Jar jar = new Jar();
