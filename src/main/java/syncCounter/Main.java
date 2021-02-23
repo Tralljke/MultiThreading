@@ -1,3 +1,5 @@
+package syncCounter;
+
 public class Main {
     static int counter = 0;
     static volatile boolean finish = false;
@@ -7,7 +9,6 @@ public class Main {
         counter++;
     }
     public static void main(String[] args) throws InterruptedException {
-
 
         new Thread(new Runnable() {
             @Override
