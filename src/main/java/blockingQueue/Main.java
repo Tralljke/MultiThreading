@@ -21,7 +21,6 @@ public class Main {
                     int counter = 0;
                     while (true) {
                         try {
-                            Thread.sleep(1000);
                             queue.put("elem-" + threadNumber + "/" + ++counter);
                             System.out.println(Thread.currentThread().getName() + " put: " + counter);
                         } catch (InterruptedException ignore) { }
@@ -35,8 +34,10 @@ public class Main {
                 public void run() {
                     while (true) {
                         try {
+                            Thread.sleep(300);
                             String data = queue.take();
                             System.out.println(Thread.currentThread().getName() + " take: " + data);
+                            System.out.println("Элементов в очереди " + queue.size());
                         } catch (InterruptedException ignore) {
                         }
                     }
