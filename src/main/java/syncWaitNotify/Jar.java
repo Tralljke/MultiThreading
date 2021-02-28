@@ -5,7 +5,7 @@ public class Jar {
     private int product = 0;
 
     synchronized void put() {
-        while(product>=20) {
+        while(product>=3) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -13,6 +13,7 @@ public class Jar {
             }
         }
         product++;
+        System.out.println(Thread.currentThread().getName() + " положил товар");
         System.out.println(product);
         try {
             Thread.sleep(100);
@@ -23,7 +24,7 @@ public class Jar {
     }
 
     synchronized void get() {
-        while(product<1) {
+        while(product<1) { // наличие хотя бы 1 товара
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -31,7 +32,6 @@ public class Jar {
             }
         }
         product--;
-        System.out.println(product);
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {

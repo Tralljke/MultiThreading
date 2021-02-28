@@ -10,22 +10,19 @@ public class Main {
 
 
         for (int i = 0; i < 3; i++) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    lock.lock();
-                    try {
-                        counter = 1;
-                        for (int i = 1; i < 5; i++) {
-                            System.out.println(Thread.currentThread().getName() + " " + counter);
-                            counter++;
-                            Thread.sleep(300);
-                        }
-                    } catch (InterruptedException e) {
+            new Thread(() -> {
+                lock.lock();
+                try {
+                    counter = 1;
+                    for (int i1 = 1; i1 < 5; i1++) {
+                        System.out.println(Thread.currentThread().getName() + " " + counter);
+                        counter++;
+                        Thread.sleep(300);
                     }
-                    finally {
-                        lock.unlock();
-                    }
+                } catch (InterruptedException e) {
+                }
+                finally {
+                    lock.unlock();
                 }
             }).start();
         }

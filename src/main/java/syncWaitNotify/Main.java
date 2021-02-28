@@ -11,6 +11,7 @@ public class Main {
         Consumer consumer = new Consumer(jar);
 
         new Thread(producer).start();
+        new Thread(producer).start();
         new Thread(consumer).start();
     }
 
