@@ -12,24 +12,18 @@ public class Main {
     }
     public static void main(String[] args) throws InterruptedException {
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < 200_000; i++) {
-                    add();
-                }
-                finish = true;
+        new Thread(() -> {
+            for (int i = 0; i < 200_000; i++) {
+                add();
             }
+            finish = true;
         }).start();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < 200_000; i++) {
-                    add();
-                }
-                finish1 = true;
+        new Thread(() -> {
+            for (int i = 0; i < 200_000; i++) {
+                add();
             }
+            finish1 = true;
         }).start();
 
         while (!finish || !finish1);
