@@ -8,16 +8,28 @@ import java.util.concurrent.CountDownLatch;
  */
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        CountDownLatch count = new CountDownLatch(5);
+        CountDownLatch count = new CountDownLatch(6);
 
         System.out.println("Начали");
 
         new Thread(()-> {
-            for(int i = 0; i<5; i++) {
+            for(int i = 0; i<2; i++) {
                 System.out.println(i);
                 count.countDown();
             }
        }).start();
+        new Thread(()-> {
+            for(int i = 0; i<2; i++) {
+                System.out.println(i);
+                count.countDown();
+            }
+        }).start();
+        new Thread(()-> {
+            for(int i = 0; i<2; i++) {
+                System.out.println(i);
+                count.countDown();
+            }
+        }).start();
         count.await();
         System.out.println("Закончили");
     }
