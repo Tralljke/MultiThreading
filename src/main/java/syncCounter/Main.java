@@ -14,14 +14,14 @@ public class Main {
 
         new Thread(() -> {
             for (int i = 0; i < 200_000; i++) {
-                counter.addAndGet(1);
+                counter.incrementAndGet();
             }
             finish = true;
         }).start();
 
         new Thread(() -> {
             for (int i = 0; i < 200_000; i++) {
-                counter.addAndGet(1);
+                counter.incrementAndGet();
             }
             finish1 = true;
         }).start();

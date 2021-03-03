@@ -1,38 +1,49 @@
 package threadExecutor;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.*;
 
 public class Main {
-    private static final int NTHREDS = 10;
+    private static final int NTHREDS = 17;
 
-    public static void main(String[] args) throws InterruptedException {
-        ExecutorService executor = Executors.newFixedThreadPool(NTHREDS);
-        for (int i = 0; i < 500; i++) {
-            Runnable worker = new MyRunnable(10000000L + i);
-            executor.execute(worker);
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
+
+        System.out.println(Runtime.getRuntime().availableProcessors());
+        ExecutorService threadPool = Executors.newFixedThreadPool(NTHREDS);
+
+        Counter counter = new Counter();
+        long start = System.nanoTime();
+
+        List<Future<Double>> futures = new ArrayList<>();
+        for (int i = 0; i < 400; i++) {
+            final int j = i;
+            futures.add(
+                    CompletableFuture.supplyAsync(
+                            () -> counter.count(j),
+                            threadPool
+                    ));
         }
-        executor.shutdown();
-       executor.awaitTermination(600, TimeUnit.SECONDS);
-        System.out.println("Finished all threads");
+        double value = 0;
+        for (Future<Double> future : futures) {
+            value += future.get();
+        }
+
+        System.out.println("Executed by" + (System.nanoTime() - start) / (1000_000_000) + " s" + "value : " + value);
+
+        threadPool.shutdown();
+
     }
 
-    public static class MyRunnable implements Runnable {
-        private final long countUntil;
 
-        MyRunnable(long countUntil) {
-            this.countUntil = countUntil;
-        }
+    public static class Counter {
 
-        @Override
-        public void run() {
-            long sum = 0;
-            for (long i = 1; i < countUntil; i++) {
-                sum += i;
+        public Double count(double a) {
+            for (int i = 0; i < 1000000; i++) {
+                a = a + Math.tan(a);
             }
-            System.out.println(sum);
-        }
 
+            return a;
+        }
     }
 }
